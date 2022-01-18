@@ -5,7 +5,8 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.createBackground();
-    this.player = new Player(this);
+    this.playerVelocity = 500;
+    this.player = new Player(this, this.playerVelocity);
   }
 
   init() {
@@ -13,8 +14,17 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    // this.bg.tilePositionX += 3;
     this.player.move();
+    if (
+      this.player.x >= config.width / 2 &&
+      this.player.moving &&
+      this.player.direction != -1
+    ) {
+      this.bg.tilePositionX += 5;
+      this.player.changeVelocity(0);
+    } else {
+      this.player.changeVelocity(500);
+    }
   }
 
   createBackground() {

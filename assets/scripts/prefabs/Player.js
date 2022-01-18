@@ -1,10 +1,12 @@
 class Player extends Phaser.GameObjects.Sprite {
-  constructor(scene) {
+  constructor(scene, velocity) {
     super(scene, 20, 520, "player", "player20");
     this.scene = scene;
     this.setOrigin(0);
     this.init();
-    this.velocity = 500;
+    this.velocity = velocity;
+    this.direction = 1;
+    this.moving = false;
 
     const frames = this.scene.anims.generateFrameNames("player", {
       prefix: "player",
@@ -29,26 +31,31 @@ class Player extends Phaser.GameObjects.Sprite {
     this.body.setVelocity(0);
     this.moving = false;
 
-    if (
-      this.scene.cursors.right.isDown &&
-      this.body.x < config.width - this.width
-    ) {
-      this.runAnimation(1);
+    if (this.scene.cursors.right.isDown) {
+      this.direction = 1;
+      this.runAnimation(this.direction);
     } else if (this.scene.cursors.left.isDown && this.body.x > 0 + this.width) {
-      this.runAnimation(-1);
+      this.direction = -1;
+      this.runAnimation(this.direction);
     } else {
       this.stopAnimation();
     }
   }
 
   stopAnimation() {
+    this.moving = false;
     this.stop("run");
     this.setFrame("player20");
   }
 
   runAnimation(direction) {
+    this.moving = true;
     this.scaleX = direction;
     this.play("run", true);
     this.body.setVelocityX(this.velocity * direction);
+  }
+
+  changeVelocity(velocity) {
+    this.velocity = velocity;
   }
 }
