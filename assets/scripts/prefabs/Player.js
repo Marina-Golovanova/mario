@@ -28,7 +28,7 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   move() {
-    this.body.setVelocity(0);
+    this.body.setVelocityX(0);
     this.moving = false;
 
     if (this.scene.cursors.right.isDown) {
@@ -39,6 +39,12 @@ class Player extends Phaser.GameObjects.Sprite {
       this.runAnimation(this.direction);
     } else {
       this.stopAnimation();
+    }
+  }
+
+  jump() {
+    if (this.scene.cursors.up.isDown && this.body.onFloor()) {
+      this.body.setVelocityY(-300);
     }
   }
 

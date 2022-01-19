@@ -5,6 +5,7 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.createBackground();
+    this.ground = new Ground(this);
     this.playerVelocity = 500;
     this.player = new Player(this, this.playerVelocity);
   }
@@ -14,7 +15,9 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
+    this.physics.add.collider(this.player, this.ground);
     this.player.move();
+    this.player.jump();
     if (
       this.player.x >= config.width / 2 &&
       this.player.moving &&
