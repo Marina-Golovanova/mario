@@ -9,6 +9,7 @@ class PreloadScene extends Phaser.Scene {
       "assets/sprites/player.png",
       "assets/sprites/player.json"
     );
+    this.load.image("gift", "assets/sprites/gift.png");
   }
 
   create() {

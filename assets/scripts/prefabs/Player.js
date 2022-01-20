@@ -25,6 +25,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.body.enable = true;
+    this.body.setSize(30, 115);
   }
 
   move() {
@@ -34,7 +35,7 @@ class Player extends Phaser.GameObjects.Sprite {
     if (this.scene.cursors.right.isDown) {
       this.direction = 1;
       this.runAnimation(this.direction);
-    } else if (this.scene.cursors.left.isDown && this.body.x > 0 + this.width) {
+    } else if (this.scene.cursors.left.isDown && this.body.x > 0) {
       this.direction = -1;
       this.runAnimation(this.direction);
     } else {
@@ -44,7 +45,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   jump() {
     if (this.scene.cursors.up.isDown && this.body.onFloor()) {
-      this.body.setVelocityY(-300);
+      this.body.setVelocityY(-600);
     }
   }
 
@@ -56,12 +57,25 @@ class Player extends Phaser.GameObjects.Sprite {
 
   runAnimation(direction) {
     this.moving = true;
-    this.scaleX = direction;
+    this.flipX = direction !== 1;
     this.play("run", true);
     this.body.setVelocityX(this.velocity * direction);
   }
 
   changeVelocity(velocity) {
     this.velocity = velocity;
+  }
+
+  rebound() {
+    this.body.setBounceY(1);
+    this.scene.tweens.add({
+      targets: this,
+      x: this.x - this.width,
+      ease: "Liner",
+      duration: 300,
+      onComplete: () => {
+        this.body.setBounceY(0);
+      },
+    });
   }
 }
