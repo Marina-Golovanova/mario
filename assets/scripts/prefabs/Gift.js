@@ -23,4 +23,22 @@ class Gift extends Phaser.GameObjects.Sprite {
   move(n) {
     this.x -= n;
   }
+
+  blust() {
+    this.timer = this.scene.time.addEvent({
+      delay: 500,
+      callback: this.tick,
+      callbackScope: this,
+      loop: true,
+    });
+  }
+
+  tick() {
+    if (this.active) {
+      this.boom = Boom.generate(this.scene, this.x, this.y);
+      this.destroy();
+    } else {
+      this.timer.remove();
+    }
+  }
 }

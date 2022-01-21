@@ -22,6 +22,7 @@ class Gifts extends Phaser.Physics.Arcade.Group {
 
   init() {
     this.scene.events.on("update", this.update, this);
+    this.scene.events.on("opened", this.onGiftOpened, this);
   }
 
   update() {
@@ -38,7 +39,6 @@ class Gifts extends Phaser.Physics.Arcade.Group {
   createGift() {
     if (!this.isActive) {
       this.gift = new Gift(this.scene);
-      this.gift.on("opened", this.onGiftOpened, this);
       this.add(this.gift);
       this.isActive = true;
       ++this.countCreated;
@@ -47,6 +47,8 @@ class Gifts extends Phaser.Physics.Arcade.Group {
 
   onGiftOpened() {
     this.countOpened++;
+    this.gift.blust();
+    this.isActive = false;
     if (this.countOpened === this.countMax) {
       this.scene.events.emit("win");
     }

@@ -8,7 +8,6 @@ class GameScene extends Phaser.Scene {
     this.ground = new Ground(this);
     this.playerVelocity = 500;
     this.player = new Player(this, this.playerVelocity);
-    // this.gift = new Gift(this);
     this.gifts = new Gifts(this);
     this.gifts.createGift();
     this.addOverlap();
@@ -22,7 +21,10 @@ class GameScene extends Phaser.Scene {
   update() {
     this.physics.add.collider(this.player, this.ground);
     this.physics.add.collider(this.gifts, this.ground);
-    this.physics.add.collider(this.player, this.gifts);
+    this.colliderPlayerToGift = this.physics.add.collider(
+      this.player,
+      this.gifts
+    );
     this.player.move();
     this.player.jump();
     if (
@@ -49,9 +51,16 @@ class GameScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.gifts,
-      this.player.rebound.bind(this.player),
+      this.collision,
       undefined,
       this
     );
+  }
+
+  collision() {
+    this.player.rebound();
+    if (this.player.y + this.player.height !== this.ground.y) {
+      this.events.emit("opened");
+    }
   }
 }
