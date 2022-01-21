@@ -70,7 +70,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.body.setBounceY(1);
     this.scene.tweens.add({
       targets: this,
-      x: this.x - this.width,
+      x: this.x - this.width * this.direction,
       ease: "Liner",
       duration: 300,
       onComplete: () => {
