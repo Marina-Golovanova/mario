@@ -12,8 +12,6 @@ class Gift extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.existing(this);
     this.body.enable = true;
     this.body.setSize(80, 150);
-    this.body.setImmovable(true);
-    this.body.setAllowGravity(0);
   }
 
   isDead() {
@@ -21,7 +19,7 @@ class Gift extends Phaser.GameObjects.Sprite {
   }
 
   move(n) {
-    this.x -= n;
+    this.x += n;
   }
 
   blust() {

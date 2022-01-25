@@ -11,7 +11,6 @@ class StartScene extends Phaser.Scene {
 
   createBackground() {
     this.bg = this.add.sprite(0, 0, "bg").setOrigin(0);
-    // this.bg.scale = 0.9;
   }
 
   createStart() {

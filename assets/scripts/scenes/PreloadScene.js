@@ -15,6 +15,12 @@ class PreloadScene extends Phaser.Scene {
       "assets/sprites/boom.png",
       "assets/sprites/boom.json"
     );
+    this.load.image("flower", "assets/sprites/flower.png");
+    this.load.atlas(
+      "zombie",
+      "assets/sprites/zombie.png",
+      "assets/sprites/zombie.json"
+    );
   }
 
   create() {

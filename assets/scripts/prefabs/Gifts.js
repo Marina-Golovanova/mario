@@ -6,18 +6,18 @@ class Gifts extends Phaser.Physics.Arcade.Group {
       moves: true,
     });
     this.scene = scene;
-    this.countMax = 10;
-    this.countCreated = 0;
-    this.countOpened = 0;
+    // this.countMax = 3;
+    // this.countCreated = 0;
+    // this.countOpened = 0;
     this.timer = this.scene.time.addEvent({
       delay: 10000,
       callback: this.tick,
       callbackScope: this,
       loop: true,
     });
-    this.gift = null;
     this.init();
     this.isActive = false;
+    this.result = null;
   }
 
   init() {
@@ -27,7 +27,7 @@ class Gifts extends Phaser.Physics.Arcade.Group {
 
   update() {
     if (this.scene.bgMoving) {
-      this.gift.move(5);
+      this.gift.move(-5);
     }
 
     if (this.gift.isDead()) {
@@ -41,21 +41,32 @@ class Gifts extends Phaser.Physics.Arcade.Group {
       this.gift = new Gift(this.scene);
       this.add(this.gift);
       this.isActive = true;
-      ++this.countCreated;
+      //   ++this.countCreated;
     }
   }
 
   onGiftOpened() {
-    this.countOpened++;
+    const coef = Phaser.Math.Between(1, 2);
+    this.result = coef === 1 ? "flower" : "enemy";
     this.gift.blust();
     this.isActive = false;
-    if (this.countOpened === this.countMax) {
-      this.scene.events.emit("win");
+    // this.countCreated++;
+    if (this.result === "flower") {
+      this.flower = Flower.generate(this.scene, this.gift.x, this.gift.y);
+      //   console.log(this.scene.flowers, this.scene.maxFlowers);
+      //   if (this.scene.flowers === this.scene.maxFlowers) {
+      //     this.scene.events.emit("win");
+      //   }
+      this.scene.addOverlap();
+    } else {
+      //   this.countCreated--;
+      //   this.countOpened--;
+      this.enemy = Enemy.generate(this.scene, this.gift.x, this.gift.y);
     }
   }
 
   tick() {
-    if (this.countCreated < this.countMax) {
+    if (this.scene.flowers < this.scene.maxFlowers) {
       this.createGift();
     } else {
       this.timer.remove();
