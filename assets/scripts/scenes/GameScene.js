@@ -39,10 +39,6 @@ class GameScene extends Phaser.Scene {
       this.bg.tilePositionX += 5;
       this.bgMoving = true;
       this.player.changeVelocity(0);
-      //   if (this.enemy) {
-      //     this.enemy.changeVelocity(-100);
-      //     console.log(this.enemy.velocity);
-      //   }
     } else {
       this.player.changeVelocity(500);
       this.bgMoving = false;
@@ -131,6 +127,8 @@ class GameScene extends Phaser.Scene {
   }
 
   onComplete() {
-    this.scene.start("Start");
+    this.scene.start("Start", {
+      isWin: this.flowers === this.maxFlowers,
+    });
   }
 }

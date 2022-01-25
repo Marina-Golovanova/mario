@@ -3,9 +3,9 @@ class StartScene extends Phaser.Scene {
     super("Start");
   }
 
-  create() {
+  create(data) {
     this.createBackground();
-    this.createStart();
+    this.createStart(data);
     this.setEvents();
   }
 
@@ -13,7 +13,7 @@ class StartScene extends Phaser.Scene {
     this.bg = this.add.sprite(0, 0, "bg").setOrigin(0);
   }
 
-  createStart() {
+  createStart(data) {
     this.add
       .graphics()
       .fillStyle("#000", 0.5)
@@ -24,12 +24,28 @@ class StartScene extends Phaser.Scene {
         175
       );
 
-    this.add
-      .text(config.width / 2, config.height / 2 + 40, "Tap to start", {
-        font: "60px Marker Felt",
-        fill: "#fff",
-      })
-      .setOrigin(0.5);
+    if (!Object.keys(data).length) {
+      this.add
+        .text(config.width / 2, config.height / 2 + 40, "Tap to start", {
+          font: "60px Marker Felt",
+          fill: "#fff",
+        })
+        .setOrigin(0.5);
+    } else {
+      const text = data.isWin ? "You won!" : "Game over!";
+      this.add
+        .text(config.width / 2, config.height / 2 + 10, text, {
+          font: "50px Marker Felt",
+          fill: "#fff",
+        })
+        .setOrigin(0.5);
+      this.add
+        .text(config.width / 2, config.height / 2 + 80, "Tap to start again", {
+          font: "50px Marker Felt",
+          fill: "#fff",
+        })
+        .setOrigin(0.5);
+    }
   }
 
   setEvents() {

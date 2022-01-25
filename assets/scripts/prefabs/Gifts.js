@@ -6,9 +6,6 @@ class Gifts extends Phaser.Physics.Arcade.Group {
       moves: true,
     });
     this.scene = scene;
-    // this.countMax = 3;
-    // this.countCreated = 0;
-    // this.countOpened = 0;
     this.timer = this.scene.time.addEvent({
       delay: 10000,
       callback: this.tick,
@@ -41,26 +38,18 @@ class Gifts extends Phaser.Physics.Arcade.Group {
       this.gift = new Gift(this.scene);
       this.add(this.gift);
       this.isActive = true;
-      //   ++this.countCreated;
     }
   }
 
   onGiftOpened() {
     const coef = Phaser.Math.Between(1, 2);
     this.result = coef === 1 ? "flower" : "enemy";
-    this.gift.blust();
+    this.gift.blust(this.scene);
     this.isActive = false;
-    // this.countCreated++;
     if (this.result === "flower") {
       this.flower = Flower.generate(this.scene, this.gift.x, this.gift.y);
-      //   console.log(this.scene.flowers, this.scene.maxFlowers);
-      //   if (this.scene.flowers === this.scene.maxFlowers) {
-      //     this.scene.events.emit("win");
-      //   }
       this.scene.addOverlap();
     } else {
-      //   this.countCreated--;
-      //   this.countOpened--;
       this.enemy = Enemy.generate(this.scene, this.gift.x, this.gift.y);
     }
   }

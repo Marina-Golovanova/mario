@@ -22,8 +22,8 @@ class Gift extends Phaser.GameObjects.Sprite {
     this.x += n;
   }
 
-  blust() {
-    this.timer = this.scene.time.addEvent({
+  blust(scene) {
+    this.timer = scene.time.addEvent({
       delay: 500,
       callback: this.tick,
       callbackScope: this,
